@@ -67,3 +67,48 @@ docker-compose exec backend python manage.py createsuperuser
 ```bash
 # Генерация данных для дашборда (30 дней)
 docker-compose exec backend python scripts/generate_data.py
+```
+
+## 🔗 Доступ к сервисам
+
+| Сервис | URL | Описание |
+|--------|-----|----------|
+| Frontend | http://localhost:5173 | React приложение |
+| Backend API | http://localhost:8000/api/ | Django REST API |
+| Admin панель | http://localhost:8000/admin | Django админка |
+| PostgreSQL | localhost:5432 | База данных |
+| Redis | localhost:6379 | Брокер задач |
+
+## 👥 Ролевая модель
+
+| Роль | Возможности |
+|------|-------------|
+| Гость | Чат с ботом, просмотр таблицы и дашборда |
+| Авторизованный | Своя история чата |
+| Оператор | Ответы в чаты, CRUD в таблице |
+
+## 📁 Структура API
+
+| Метод | Эндпоинт | Описание | Доступ |
+|-------|----------|----------|--------|
+| POST | /api/users/register/ | Регистрация | Все |
+| POST | /api/users/login/ | Вход | Все |
+| GET | /api/users/me/ | Текущий пользователь | Авторизованные |
+| POST | /api/chat/send/ | Отправить сообщение | Все |
+| POST | /api/chat/operator_reply/ | Ответ оператора | Оператор |
+| GET | /api/chat/all_sessions/ | Список чатов | Оператор |
+| GET | /api/sales/ | Список продаж | Все |
+| POST/PUT/DELETE | /api/sales/ | CRUD продаж | Оператор |
+| GET | /api/sales/stats/ | Статистика | Все |
+
+## 🧪 Тестирование
+
+```bash
+# Проверка API
+curl http://localhost:8000/api/sales/
+
+# Отправка сообщения боту
+curl -X POST http://localhost:8000/api/chat/send/ \
+  -H "Content-Type: application/json" \
+  -d '{"message":"Покажи меню"}'
+```
