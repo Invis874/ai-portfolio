@@ -26,13 +26,8 @@ services:
       - ./backend:/app
     ports:
       - "8000:8000"
-    environment:
-      DEBUG: "1"
-      DB_NAME: portfolio_db
-      DB_USER: portfolio_user
-      DB_PASSWORD: portfolio_pass
-      DB_HOST: postgres
-      REDIS_URL: redis://redis:6379
+    env_file:
+      - .env
     depends_on:
       - postgres
       - redis

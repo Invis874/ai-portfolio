@@ -1,8 +1,44 @@
-venv/
+# Python
 __pycache__/
-*.pyc
-.env
-node_modules/
-.DS_Store
-*.log
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
 
+# Django
+*.log
+*.pot
+*.pyc
+db.sqlite3
+media/
+staticfiles/
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+*.pid
+
+# Docker
+.env
+.docker/
+docker-compose.override.yml
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Frontend
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# OS
+.DS_Store
+Thumbs.db

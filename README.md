@@ -25,7 +25,7 @@
 - JWT аутентификация
 - Celery + Redis (периодические задачи)
 - PostgreSQL
-- AI бот на регулярных выражениях
+- AI бот: rule-based + **GigaChat API** (Сбер)
 
 ### Frontend
 - React 18 + Vite
@@ -111,4 +111,19 @@ curl http://localhost:8000/api/sales/
 curl -X POST http://localhost:8000/api/chat/send/ \
   -H "Content-Type: application/json" \
   -d '{"message":"Покажи меню"}'
+```
+
+## 🤖 AI возможности
+
+Проект поддерживает два режима работы бота:
+
+### 1. Rule-based (по умолчанию)
+- Работает без API-ключей
+- Распознаёт ключевые слова
+
+### 2. AI-режим (опционально)
+Подключите GigaChat от Сбера:
+```bash
+# Добавьте ключ в .env
+GIGACHAT_API_KEY=ваш_ключ
 ```
