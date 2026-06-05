@@ -1,0 +1,298 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Плавный переход темы с аппаратным ускорением */
+.theme-transition {
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+  will-change: background-color, border-color;
+}
+
+.theme-transition-fast {
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+  will-change: background-color, border-color;
+}
+
+/* Форсируем аппаратное ускорение для проблемных элементов */
+.chat-messages-area {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Предотвращаем моргание при переключении темы */
+.dark .chat-messages-area,
+.light .chat-messages-area {
+  transition: background-color 0.3s ease;
+  will-change: background-color;
+}
+
+/* ========== СТИЛИ ДЛЯ ТАБЛИЦЫ ========== */
+/* Ховер для строк таблицы */
+tr:hover td {
+  background-color: rgba(59, 130, 246, 0.1) !important;
+}
+
+.dark tr:hover td {
+  background-color: rgba(59, 130, 246, 0.2) !important;
+}
+
+/* Кнопки действий в таблице */
+button.text-blue-600:hover {
+  color: #2563eb !important;
+}
+
+.dark button.text-blue-600 {
+  color: #60a5fa !important;
+}
+
+.dark button.text-blue-600:hover {
+  color: #93c5fd !important;
+}
+
+.dark button.text-red-600 {
+  color: #f87171 !important;
+}
+
+.dark button.text-red-600:hover {
+  color: #fca5a5 !important;
+}
+
+/* ========== СТИЛИ ДЛЯ КАЛЕНДАРЯ REACT-DATE-RANGE ========== */
+/* Основной контейнер календаря */
+.rdrCalendarWrapper {
+  background-color: var(--bg-card, #ffffff) !important;
+  color: var(--text-primary, #111827) !important;
+  border-radius: 0.5rem !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
+}
+
+.dark .rdrCalendarWrapper {
+  --bg-card: #1f2937;
+  --text-primary: #f9fafb;
+  background-color: #1f2937 !important;
+  border: 1px solid #374151 !important;
+}
+
+/* Поле ввода даты */
+.rdrDateDisplay {
+  background-color: #f3f4f6 !important;
+}
+
+.dark .rdrDateDisplay {
+  background-color: #374151 !important;
+}
+
+.rdrDateDisplayItem input {
+  background-color: #ffffff !important;
+  color: #111827 !important;
+}
+
+.dark .rdrDateDisplayItem input {
+  background-color: #4b5563 !important;
+  color: #f9fafb !important;
+}
+
+/* Шапка с выбором месяца/года */
+.rdrMonthAndYearWrapper {
+  background-color: #f9fafb !important;
+}
+
+.dark .rdrMonthAndYearWrapper {
+  background-color: #1f2937 !important;
+}
+
+/* Выпадающие списки месяца и года */
+.rdrMonthPicker select,
+.rdrYearPicker select {
+  background-color: #ffffff !important;
+  color: #111827 !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 0.375rem !important;
+  padding: 0.25rem 0.5rem !important;
+}
+
+.dark .rdrMonthPicker select,
+.dark .rdrYearPicker select {
+  background-color: #4b5563 !important;
+  color: #f9fafb !important;
+  border-color: #6b7280 !important;
+}
+
+/* Навигационные кнопки */
+.rdrPprevButton i,
+.rdrNextButton i {
+  border-color: #6b7280 !important;
+}
+
+.dark .rdrPprevButton i,
+.dark .rdrNextButton i {
+  border-color: #9ca3af !important;
+}
+
+/* Дни в календаре - надо убрать */
+.dark .rdrDayNumber span {
+  color: #f9fafb !important;
+}
+
+/* Сегодняшний день */
+.rdrDayToday .rdrDayNumber span:after {
+  background-color: #3b82f6 !important;
+}
+
+/* Выбранный диапазон */
+.rdrStartEdge,
+.rdrEndEdge,
+.rdrInRange {
+  background-color: #3b82f6 !important;
+  color: #ffffff !important;
+}
+
+.dark .rdrStartEdge,
+.dark .rdrEndEdge,
+.dark .rdrInRange {
+  background-color: #2563eb !important;
+}
+
+/* Текст внутри выделенного диапазона - БЕЛЫЙ */
+.rdrStartEdge .rdrDayNumber span,
+.rdrEndEdge .rdrDayNumber span,
+.rdrInRange .rdrDayNumber span {
+  color: #ffffff !important;
+}
+
+/* Дополнительно для наведения */
+.rdrDayInPreview span {
+  color: #ffffff !important;
+}
+
+.dark .rdrDayInPreview span {
+  color: #ffffff !important;
+}
+
+/* Неактивные дни (другого месяца) */
+.rdrDayPassive .rdrDayNumber span {
+  color: #9ca3af !important;
+}
+
+.dark .rdrDayPassive .rdrDayNumber span {
+  color: #6b7280 !important;
+}
+
+/* Боковая панель с предустановленными диапазонами */
+.rdrDefinedRangesWrapper {
+  background-color: #f9fafb !important;
+  border-right: 1px solid #e5e7eb !important;
+}
+
+.dark .rdrDefinedRangesWrapper {
+  background-color: #1f2937 !important;
+  border-right-color: #374151 !important;
+}
+
+.rdrStaticRange {
+  background-color: #f9fafb !important;
+  border-bottom-color: #e5e7eb !important;
+}
+
+.dark .rdrStaticRange {
+  background-color: #1f2937 !important;
+  border-bottom-color: #374151 !important;
+}
+
+.rdrStaticRange:hover {
+  background-color: #e5e7eb !important;
+}
+
+.dark .rdrStaticRange:hover {
+  background-color: #374151 !important;
+}
+
+.dark .rdrInputRangeInput:hover {
+  color: #ffffff !important;
+}
+
+.rdrStaticRangeLabel {
+  color: #111827 !important;
+}
+
+.dark .rdrStaticRangeLabel {
+  color: #f9fafb !important;
+}
+
+/* Стили для скроллбара */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: #1f2937;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #4b5563;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #6b7280;
+}
+
+/* Дополнительные стили для тёмной темы */
+.dark body {
+  background-color: #111827;
+  color: #f3f4f6;
+}
+
+.dark .bg-white {
+  background-color: #1f2937 !important;
+  color: #f3f4f6 !important;
+}
+
+.dark .bg-gray-50 {
+  background-color: #374151 !important;
+}
+
+.dark .bg-gray-100 {
+  background-color: #1f2937 !important;
+}
+
+.dark .border-gray-300 {
+  border-color: #4b5563 !important;
+}
+
+.dark .text-gray-600,
+.dark .text-gray-700,
+.dark .text-gray-800 {
+  color: #d1d5db !important;
+}
+
+.dark input,
+.dark select,
+.dark textarea {
+  background-color: #374151;
+  border-color: #4b5563;
+  color: #f3f4f6;
+}
+
+.dark input::placeholder {
+  color: #9ca3af;
+}
+
+.dark .bg-gray-200 {
+  background-color: #4b5563 !important;
+}

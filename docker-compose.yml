@@ -1,0 +1,87 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: portfolio_db
+      POSTGRES_USER: portfolio_user
+      POSTGRES_PASSWORD: portfolio_pass
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  backend:
+    build: ./backend
+    command: sh -c "python manage.py makemigrations --noinput && python manage.py migrate --noinput && python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+    environment:
+      DEBUG: "1"
+      DB_NAME: portfolio_db
+      DB_USER: portfolio_user
+      DB_PASSWORD: portfolio_pass
+      DB_HOST: postgres
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      - postgres
+      - redis
+
+  celery:
+    build: ./backend
+    command: celery -A django_project worker --loglevel=info
+    volumes:
+      - ./backend:/app
+    environment:
+      DEBUG: "1"
+      DB_NAME: portfolio_db
+      DB_USER: portfolio_user
+      DB_PASSWORD: portfolio_pass
+      DB_HOST: postgres
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      - backend
+      - redis
+
+  celery-beat:
+    build: ./backend
+    command: celery -A django_project beat --loglevel=info
+    volumes:
+      - ./backend:/app
+    environment:
+      DEBUG: "1"
+      DB_NAME: portfolio_db
+      DB_USER: portfolio_user
+      DB_PASSWORD: portfolio_pass
+      DB_HOST: postgres
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      - backend
+      - redis
+
+  frontend:
+    build: ./frontend
+    command: npm run dev -- --host 0.0.0.0
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "5173:5173"
+    environment:
+      VITE_API_URL: http://localhost:8000/api
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
+  redis_data:

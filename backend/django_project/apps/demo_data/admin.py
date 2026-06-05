@@ -1,0 +1,8 @@
+from django.contrib import admin
+from .models import SalesData
+
+@admin.register(SalesData)
+class SalesDataAdmin(admin.ModelAdmin):
+    list_display = ['product_name', 'category', 'quantity', 'revenue', 'date', 'created_by']
+    list_filter = ['category', 'date']
+    search_fields = ['product_name']
