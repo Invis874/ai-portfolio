@@ -4,6 +4,8 @@
 [![Django](https://img.shields.io/badge/Django-5.0-green)](https://www.djangoproject.com/)
 [![React](https://img.shields.io/badge/React-18.2-blue)](https://reactjs.org/)
 [![Tailwind](https://img.shields.io/badge/Tailwind-3.4-cyan)](https://tailwindcss.com/)
+[![2GIS](https://img.shields.io/badge/2GIS-API-orange)](https://dev.2gis.ru/)
+[![GigaChat](https://img.shields.io/badge/GigaChat-AI-purple)](https://developers.sber.ru/)
 
 > Портфолио-проект. Демонстрация навыков автоматизации бизнес-процессов с помощью ИИ.
 
@@ -11,12 +13,37 @@
 
 Проект представляет собой полноценную платформу с ролевой моделью, демонстрирующую:
 
-- 🤖 **Умный чат-бот** — AI бот с распознаванием намерений (меню, скидки, доставка)
-- 👨‍💼 **Чат оператора** — ручной режим ответов с группировкой по сессиям
-- 📊 **CRUD таблица** — управление данными с ролевым доступом (гость/оператор)
-- 📈 **Дашборд аналитики** — графики продаж с фильтрацией по периодам
-- 🌓 **Тёмная тема** — плавное переключение с сохранением в localStorage
-- 🐳 **Docker** — полная контейнеризация с PostgreSQL, Redis, Celery
+### 🤖 Умный чат-бот
+- AI бот с распознаванием намерений (меню, скидки, доставка)
+- Интеграция с GigaChat (Сбер) для естественных ответов
+- Ручной режим оператора с группировкой по сессиям
+- Гибкая архитектура с fallback на rule-based логику
+
+### 📦 Поиск поставщиков HoReCa
+- Интеграция с 2GIS API (поиск по категориям)
+- AI фильтрация поставщиков через GigaChat
+- Автоматическое определение категорий товаров
+- Сравнение поставщиков
+- Отзывы и рейтинг
+
+### 📊 Управление данными
+- CRUD таблица с ролевым доступом (гость/оператор)
+- Фильтрация по датам и категориям
+- Экспорт статистики
+
+### 📈 Дашборд аналитики
+- Графики продаж с выбором периода
+- Статистика по категориям
+- Детальная аналитика
+
+### 🌓 Тёмная тема
+- Плавное переключение
+- Сохранение выбора в localStorage
+
+### 🐳 Docker
+- Полная контейнеризация
+- PostgreSQL, Redis, Celery
+- Автоматические миграции
 
 ## 🏗️ Технологии
 
@@ -25,7 +52,8 @@
 - JWT аутентификация
 - Celery + Redis (периодические задачи)
 - PostgreSQL
-- AI бот: rule-based + **GigaChat API** (Сбер)
+- GigaChat API (Сбер)
+- 2GIS API (каталог организаций)
 
 ### Frontend
 - React 18 + Vite
@@ -35,7 +63,6 @@
 
 ### DevOps
 - Docker + Docker Compose
-- GitHub Actions (готово для CI/CD)
 
 ## 🚀 Быстрый старт
 
@@ -67,6 +94,9 @@ docker-compose exec backend python manage.py createsuperuser
 ```bash
 # Генерация данных для дашборда (30 дней)
 docker-compose exec backend python scripts/generate_data.py
+
+# Демо-поставщики (для показа функционала)
+docker-compose exec backend python scripts/generate_suppliers_demo.py
 ```
 
 ## 🔗 Доступ к сервисам
@@ -89,17 +119,60 @@ docker-compose exec backend python scripts/generate_data.py
 
 ## 📁 Структура API
 
+### Поставщики
+
+| Метод | Эндпоинт | Описание | Доступ |
+|-------|----------|----------|--------|
+| GET | /api/suppliers/ | Список поставщиков | Все |
+| GET | /api/suppliers/{id}/ | Детали поставщика | Все |
+| POST | /api/suppliers/ | Добавить поставщика | Оператор |
+| PUT | /api/suppliers/{id}/ | Редактировать | Оператор |
+| DELETE | /api/suppliers/{id}/ | Удалить | Оператор |
+| GET | /api/suppliers/compare/?ids=1,2,3 | Сравнение | Все |
+| POST | /api/suppliers/auto_collect/ | Автосбор из 2GIS | Оператор |
+| GET | /api/suppliers/filters_info/ | Информация для фильтров | Все |
+
+### Отзывы
+
+| Метод | Эндпоинт | Описание | Доступ |
+|-------|----------|----------|--------|
+| GET | /api/reviews/?supplier_id=1 | Отзывы поставщика | Все |
+| POST | /api/reviews/ | Оставить отзыв | Авторизованные |
+
+### Чат
+
+| Метод | Эндпоинт | Описание | Доступ |
+|-------|----------|----------|--------|
+| POST | /api/chat/send/ | Отправить сообщение | Все |
+| POST | /api/chat/operator_reply/ | Ответ оператора | Оператор |
+| GET | /api/chat/unread/ | Непрочитанные сообщения | Оператор |
+| GET | /api/chat/all_sessions/ | Список чатов | Оператор |
+| GET | /api/chat/session_messages/ | Сообщения сессии | Оператор |
+
+### Пользователи
+
 | Метод | Эндпоинт | Описание | Доступ |
 |-------|----------|----------|--------|
 | POST | /api/users/register/ | Регистрация | Все |
 | POST | /api/users/login/ | Вход | Все |
 | GET | /api/users/me/ | Текущий пользователь | Авторизованные |
-| POST | /api/chat/send/ | Отправить сообщение | Все |
-| POST | /api/chat/operator_reply/ | Ответ оператора | Оператор |
-| GET | /api/chat/all_sessions/ | Список чатов | Оператор |
+| GET | /api/users/profile/ | Профиль с ролью | Авторизованные |
+
+### Категории
+
+| Метод | Эндпоинт | Описание | Доступ |
+|-------|----------|----------|--------|
+| GET | /api/categories/ | Список категорий поставщиков | Все |
+
+### Продажи (дашборд)
+
+| Метод | Эндпоинт | Описание | Доступ |
+|-------|----------|----------|--------|
 | GET | /api/sales/ | Список продаж | Все |
-| POST/PUT/DELETE | /api/sales/ | CRUD продаж | Оператор |
-| GET | /api/sales/stats/ | Статистика | Все |
+| POST | /api/sales/ | Добавить продажу | Оператор |
+| PUT | /api/sales/{id}/ | Редактировать продажу | Оператор |
+| DELETE | /api/sales/{id}/ | Удалить продажу | Оператор |
+| GET | /api/sales/stats/ | Статистика для дашборда | Все |
 
 ## 🧪 Тестирование
 
@@ -126,4 +199,11 @@ curl -X POST http://localhost:8000/api/chat/send/ \
 ```bash
 # Добавьте ключ в .env
 GIGACHAT_API_KEY=ваш_ключ
+```
+
+## 2GIS API не возвращает результаты
+
+Проверьте ключ в `.env`:
+```bash
+docker-compose exec backend env | grep DGIS
 ```

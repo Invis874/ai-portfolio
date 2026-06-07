@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     'chat.apps.ChatConfig',
     'demo_data.apps.DemoDataConfig',
     'users.apps.UsersConfig',
+    'suppliers.apps.SuppliersConfig',
     # Django стандартные
     'django.contrib.admin',
     'django.contrib.auth',

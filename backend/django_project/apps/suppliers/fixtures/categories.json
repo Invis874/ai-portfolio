@@ -1,0 +1,10 @@
+[
+  {"model": "suppliers.suppliercategory", "pk": 1, "fields": {"name": "🥩 Мясо и птица", "icon": "🥩"}},
+  {"model": "suppliers.suppliercategory", "pk": 2, "fields": {"name": "🥬 Овощи и фрукты", "icon": "🥬"}},
+  {"model": "suppliers.suppliercategory", "pk": 3, "fields": {"name": "🐟 Рыба и морепродукты", "icon": "🐟"}},
+  {"model": "suppliers.suppliercategory", "pk": 4, "fields": {"name": "🥛 Молочные продукты", "icon": "🥛"}},
+  {"model": "suppliers.suppliercategory", "pk": 5, "fields": {"name": "🍞 Хлеб и выпечка", "icon": "🍞"}},
+  {"model": "suppliers.suppliercategory", "pk": 6, "fields": {"name": "🥫 Бакалея", "icon": "🥫"}},
+  {"model": "suppliers.suppliercategory", "pk": 7, "fields": {"name": "📦 Упаковка", "icon": "📦"}},
+  {"model": "suppliers.suppliercategory", "pk": 8, "fields": {"name": "🧴 Соусы и специи", "icon": "🧴"}}
+]

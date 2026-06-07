@@ -2,15 +2,18 @@ import React, { useState, useEffect } from 'react'
 import { BrowserRouter, Routes, Route, Link, Navigate } from 'react-router-dom'
 import axios from 'axios'
 import { ThemeProvider, useTheme } from './context/ThemeContext'
+import ThemeToggle from './components/ThemeToggle'
 
 // Компоненты
-import ThemeToggle from './components/ThemeToggle'
 import PublicChat from './components/PublicChat'
 import OperatorChat from './components/OperatorChat'
 import DataTable from './components/DataTable'
 import Dashboard from './components/Dashboard'
 import Login from './components/Login'
 import Register from './components/Register'
+import SuppliersList from './components/suppliers/SuppliersList'
+import SupplierDetail from './components/suppliers/SupplierDetail'
+import SupplierForm from './components/suppliers/SupplierForm'
 
 function AppContent() {
   const [token, setToken] = useState(localStorage.getItem('access_token'))
@@ -51,26 +54,30 @@ function AppContent() {
 
   return (
     <BrowserRouter>
-      <div className={`min-h-screen transition-colors duration-300 ${
+      <div className={`min-h-screen theme-transition ${
         darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-900'
       }`}>
         {/* Навигация */}
-        <nav className={`shadow-md p-4 transition-colors duration-300 ${
+        <nav className={`shadow-md p-4 theme-transition ${
           darkMode ? 'bg-gray-800 border-b border-gray-700' : 'bg-white'
         }`}>
-          <div className="container mx-auto flex justify-between items-center">
-            <Link to="/" className={`text-xl font-bold transition-colors ${
+          <div className="container mx-auto flex justify-between items-center flex-wrap gap-2">
+            <Link to="/" className={`text-xl font-bold theme-transition ${
               darkMode ? 'text-blue-400' : 'text-blue-600'
             }`}>
               🚀 AI Automation Portfolio
             </Link>
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-4 flex-wrap gap-2">
               <Link to="/" className={`hover:${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>🏠 Главная</Link>
               <Link to="/chat" className={`hover:${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>💬 Чат</Link>
               <Link to="/table" className={`hover:${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>📊 Таблица</Link>
               <Link to="/dashboard" className={`hover:${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>📈 Дашборд</Link>
+              <Link to="/suppliers" className={`hover:${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>📦 Поставщики</Link>
               {role === 'operator' && (
-                <Link to="/operator-chat" className={`hover:${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>🎧 Чат оператора</Link>
+                <>
+                  <Link to="/operator-chat" className={`hover:${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>🎧 Чат оператора</Link>
+                  <Link to="/suppliers/add" className={`hover:${darkMode ? 'text-green-400' : 'text-green-600'}`}>➕ Добавить поставщика</Link>
+                </>
               )}
               <ThemeToggle />
               {user ? (
@@ -94,12 +101,20 @@ function AppContent() {
         </nav>
 
         {/* Контент */}
-        <main className="container mx-auto p-6">
+        <main className="container mx-auto">
           <Routes>
             <Route path="/" element={<Home role={role} darkMode={darkMode} />} />
             <Route path="/chat" element={<PublicChat user={user} />} />
             <Route path="/table" element={<DataTable userRole={role} token={token} />} />
             <Route path="/dashboard" element={<Dashboard token={token} />} />
+            <Route path="/suppliers" element={<SuppliersList />} />
+            <Route path="/suppliers/:id" element={<SupplierDetail />} />
+            <Route path="/suppliers/add" element={
+              role === 'operator' ? <SupplierForm /> : <Navigate to="/suppliers" />
+            } />
+            <Route path="/suppliers/edit/:id" element={
+              role === 'operator' ? <SupplierForm /> : <Navigate to="/suppliers" />
+            } />
             <Route path="/operator-chat" element={
               role === 'operator' ? <OperatorChat token={token} user={user} /> : <Navigate to="/" />
             } />
@@ -123,7 +138,7 @@ function Home({ role, darkMode }) {
         Автоматизация бизнес-процессов с помощью ИИ
       </p>
       
-      <div className="grid md:grid-cols-3 gap-6 mt-8">
+      <div className="grid md:grid-cols-3 gap-6 mt-8 px-4">
         <div className={`p-6 rounded-lg shadow transition-colors ${
           darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'
         }`}>
@@ -134,7 +149,7 @@ function Home({ role, darkMode }) {
           darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'
         }`}>
           <h3 className="text-2xl mb-3">📊 Управление данными</h3>
-          <p className={darkMode ? 'text-gray-300' : 'text-gray-600'}>CRUD таблица с ролевой моделью</p>
+          <p className={darkMode ? 'text-gray-300' : 'text-gray-600'}>CRUD таблица с ролевой модельей</p>
         </div>
         <div className={`p-6 rounded-lg shadow transition-colors ${
           darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'
@@ -144,12 +159,12 @@ function Home({ role, darkMode }) {
         </div>
       </div>
 
-      <div className={`mt-8 p-4 rounded-lg ${
+      <div className={`mt-8 p-4 rounded-lg mx-4 ${
         darkMode ? 'bg-yellow-900 text-yellow-200' : 'bg-yellow-100 text-yellow-800'
       }`}>
         <p className="font-semibold">
           {role === 'operator' 
-            ? '✅ Вы вошли как ОПЕРАТОР — доступно редактирование таблицы и ответы в чате'
+            ? '✅ Вы вошли как ОПЕРАТОР — доступно редактирование таблицы, ответы в чате и управление поставщиками'
             : '👋 Вы в режиме ГОСТЯ — только просмотр. Войдите как оператор для полного доступа'}
         </p>
       </div>
