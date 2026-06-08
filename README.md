@@ -74,6 +74,11 @@
 
 Перед запуском создайте файл `.env` в корне проекта:
 
+**Windows (PowerShell / CMD):**
+```cmd
+copy .env.backup .env
+```
+**Linux / macOS:**
 ```bash
 # Скопируйте пример конфигурации
 cp .env.backup .env
