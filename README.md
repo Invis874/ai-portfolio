@@ -70,6 +70,37 @@
 - Docker Desktop 4.20+
 - 4GB RAM
 
+### Настройка окружения
+
+Перед запуском создайте файл `.env` в корне проекта:
+
+```bash
+# Скопируйте пример конфигурации
+cp .env.backup .env
+```
+
+Или создайте вручную файл .env с содержимым:
+
+```env
+DEBUG=1
+DB_NAME=portfolio_db
+DB_USER=portfolio_user
+DB_PASSWORD=portfolio_pass
+DB_HOST=postgres
+REDIS_URL=redis://redis:6379
+
+# GigaChat API (опционально)
+GIGACHAT_API_KEY=
+
+# 2GIS API (опционально)
+DGIS_API_KEY=
+```
+*Примечание*: API ключи не обязательны для базовой работы. Без них:
+
+Чат-бот работает в rule-based режиме
+
+Поиск поставщиков работает в демо-режиме
+
 ### Запуск
 
 ```bash
