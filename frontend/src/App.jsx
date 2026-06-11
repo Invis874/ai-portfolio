@@ -34,9 +34,9 @@ function AppContent() {
 
   const fetchUser = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/api/users/me/')
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/users/me/`)
       setUser(response.data)
-      const profileRes = await axios.get('http://localhost:8000/api/users/profile/')
+      const profileRes = await axios.get(`${import.meta.env.VITE_API_URL}/users/profile/`)
       setRole(profileRes.data.role)
     } catch (error) {
       console.error('Auth error:', error)

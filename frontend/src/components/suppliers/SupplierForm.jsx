@@ -35,7 +35,7 @@ function SupplierForm() {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/api/categories/')
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/categories/`)
       setCategories(response.data)
     } catch (error) {
       console.error('Error fetching categories:', error)
@@ -44,7 +44,7 @@ function SupplierForm() {
 
   const fetchSupplier = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/suppliers/${id}/`)
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/suppliers/${id}/`)
       const supplier = response.data
       setFormData({
         name: supplier.name,
@@ -97,12 +97,12 @@ function SupplierForm() {
 
     try {
       if (id) {
-        await axios.put(`http://localhost:8000/api/suppliers/${id}/`, formData, {
+        await axios.put(`${import.meta.env.VITE_API_URL}/suppliers/${id}/`, formData, {
           headers: { 'Authorization': `Bearer ${token}` }
         })
         alert('Поставщик обновлён!')
       } else {
-        await axios.post('http://localhost:8000/api/suppliers/', formData, {
+        await axios.post(`${import.meta.env.VITE_API_URL}/suppliers/`, formData, {
           headers: { 'Authorization': `Bearer ${token}` }
         })
         alert('Поставщик добавлен!')

@@ -20,7 +20,7 @@ function SupplierDetail() {
       const token = localStorage.getItem('access_token')
       if (token) {
         try {
-          const response = await axios.get('http://localhost:8000/api/users/profile/', {
+          const response = await axios.get(`${import.meta.env.VITE_API_URL}/users/profile/`, {
             headers: { 'Authorization': `Bearer ${token}` }
           })
           setUserRole(response.data.role)
@@ -42,7 +42,7 @@ function SupplierDetail() {
       const token = localStorage.getItem('access_token')
       const headers = token ? { 'Authorization': `Bearer ${token}` } : {}
       
-      const response = await axios.get(`http://localhost:8000/api/suppliers/${id}/`, { headers })
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/suppliers/${id}/`, { headers })
       setSupplier(response.data)
     } catch (error) {
       console.error('Error fetching supplier:', error)
@@ -57,7 +57,7 @@ function SupplierDetail() {
 
     try {
       const headers = { 'Authorization': `Bearer ${token}` }
-      const response = await axios.get(`http://localhost:8000/api/reviews/?supplier_id=${id}`, { headers })
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/reviews/?supplier_id=${id}`, { headers })
       const myReview = response.data.find(r => r.user?.username === JSON.parse(atob(token.split('.')[1])).username)
       if (myReview) {
         setUserReview(myReview)
@@ -77,7 +77,7 @@ function SupplierDetail() {
 
     setSubmitting(true)
     try {
-      await axios.post('http://localhost:8000/api/reviews/', {
+      await axios.post(`${import.meta.env.VITE_API_URL}/reviews/`, {
         supplier_id: parseInt(id),
         rating: review.rating,
         comment: review.comment

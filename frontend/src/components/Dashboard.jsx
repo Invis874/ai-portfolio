@@ -14,7 +14,7 @@ function Dashboard({ token }) {
 
   const fetchStats = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/sales/stats/?period=${period}`)
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/sales/stats/?period=${period}`)
       setStats(response.data)
     } catch (error) {
       console.error('Error fetching stats:', error)

@@ -32,7 +32,7 @@ function Register({ setToken }) {
     }
 
     try {
-      const response = await axios.post('http://localhost:8000/api/users/register/', {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/users/register/`, {
         username: formData.username,
         email: formData.email,
         password: formData.password

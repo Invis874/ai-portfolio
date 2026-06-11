@@ -39,13 +39,8 @@ services:
     command: celery -A django_project worker --loglevel=info
     volumes:
       - ./backend:/app
-    environment:
-      DEBUG: "1"
-      DB_NAME: portfolio_db
-      DB_USER: portfolio_user
-      DB_PASSWORD: portfolio_pass
-      DB_HOST: postgres
-      REDIS_URL: redis://redis:6379
+    env_file:
+      - .env
     depends_on:
       - backend
       - redis
@@ -55,13 +50,8 @@ services:
     command: celery -A django_project beat --loglevel=info
     volumes:
       - ./backend:/app
-    environment:
-      DEBUG: "1"
-      DB_NAME: portfolio_db
-      DB_USER: portfolio_user
-      DB_PASSWORD: portfolio_pass
-      DB_HOST: postgres
-      REDIS_URL: redis://redis:6379
+    env_file:
+      - .env
     depends_on:
       - backend
       - redis
@@ -74,8 +64,8 @@ services:
       - /app/node_modules
     ports:
       - "5173:5173"
-    environment:
-      VITE_API_URL: http://localhost:8000/api
+    env_file:
+      - .env
     depends_on:
       - backend
 

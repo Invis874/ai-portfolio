@@ -23,7 +23,7 @@ function OperatorChat({ token, user }) {
 
   const fetchAllSessions = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/api/chat/all_sessions/')
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/chat/all_sessions/`)
       setSessions(response.data)
     } catch (error) {
       console.error('Error fetching sessions:', error)
@@ -32,7 +32,7 @@ function OperatorChat({ token, user }) {
 
   const loadSessionMessages = async (session) => {
     try {
-      let url = 'http://localhost:8000/api/chat/session_messages/?'
+      let url = `${import.meta.env.VITE_API_URL}/chat/session_messages/?`
       if (session.type === 'guest') {
         url += `session_key=${session.session_key}`
       } else {
@@ -60,7 +60,7 @@ function OperatorChat({ token, user }) {
         payload.user_id = selectedSession.user_id
       }
       
-      await axios.post('http://localhost:8000/api/chat/operator_reply/', payload)
+      await axios.post(`${import.meta.env.VITE_API_URL}/chat/operator_reply/`, payload)
       
       setInput('')
       setShouldAutoScroll(true)

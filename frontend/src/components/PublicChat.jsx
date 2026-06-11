@@ -49,9 +49,9 @@ function PublicChat({ user }) {
       if (chatIdentifier.type === 'user') {
         const token = localStorage.getItem('access_token')
         headers['Authorization'] = `Bearer ${token}`
-        url = 'http://localhost:8000/api/chat/'
+        url = `${import.meta.env.VITE_API_URL}/chat/`
       } else {
-        url = `http://localhost:8000/api/chat/?session_key=${chatIdentifier.id}`
+        url = `${import.meta.env.VITE_API_URL}/chat/?session_key=${chatIdentifier.id}`
       }
       
       const response = await axios.get(url, { headers })
@@ -79,7 +79,7 @@ function PublicChat({ user }) {
       }
       
       const response = await axios.post(
-        'http://localhost:8000/api/chat/send/',
+        `${import.meta.env.VITE_API_URL}/chat/send/`,
         { message: input },
         { headers }
       )

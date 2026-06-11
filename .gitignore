@@ -24,6 +24,7 @@ celerybeat.pid
 
 # Docker
 .env
+.env.production
 .docker/
 docker-compose.override.yml
 

@@ -39,7 +39,7 @@ function DataTable({ userRole, token }) {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/api/sales/')
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/sales/`)
       setData(response.data)
     } catch (error) {
       console.error('Error fetching data:', error)
@@ -62,7 +62,7 @@ function DataTable({ userRole, token }) {
 
   const handleCreate = async () => {
     try {
-      await axios.post('http://localhost:8000/api/sales/', formData)
+      await axios.post(`${import.meta.env.VITE_API_URL}/sales/`, formData)
       fetchData()
       setFormData({ product_name: '', category: 'pizza', quantity: 1, revenue: 0 })
     } catch (error) {
@@ -72,7 +72,7 @@ function DataTable({ userRole, token }) {
 
   const handleUpdate = async () => {
     try {
-      await axios.put(`http://localhost:8000/api/sales/${editingItem.id}/`, formData)
+      await axios.put(`${import.meta.env.VITE_API_URL}/sales/${editingItem.id}/`, formData)
       fetchData()
       setEditingItem(null)
       setFormData({ product_name: '', category: 'pizza', quantity: 1, revenue: 0 })
@@ -84,7 +84,7 @@ function DataTable({ userRole, token }) {
   const handleDelete = async (id) => {
     if (window.confirm('Удалить запись?')) {
       try {
-        await axios.delete(`http://localhost:8000/api/sales/${id}/`)
+        await axios.delete(`${import.meta.env.VITE_API_URL}/sales/${id}/`)
         fetchData()
       } catch (error) {
         console.error('Error deleting:', error)

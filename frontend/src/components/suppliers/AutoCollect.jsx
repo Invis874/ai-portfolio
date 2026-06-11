@@ -18,7 +18,7 @@ function AutoCollect({ onCollected }) {
 
     setLoading(true)
     try {
-      const response = await axios.post('http://localhost:8000/api/suppliers/auto_collect/', {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/suppliers/auto_collect/`, {
         query, city
       }, {
         headers: { 'Authorization': `Bearer ${token}` }

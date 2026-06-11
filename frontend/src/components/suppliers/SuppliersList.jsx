@@ -41,7 +41,7 @@ function SuppliersList() {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/api/categories/')
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/categories/`)
       setCategories(response.data)
     } catch (error) {
       console.error('Error fetching categories:', error)
@@ -50,7 +50,7 @@ function SuppliersList() {
 
   const fetchFiltersInfo = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/api/suppliers/filters_info/')
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/suppliers/filters_info/`)
       setFiltersInfo(response.data)
     } catch (error) {
       console.error('Error fetching filters info:', error)
@@ -73,7 +73,7 @@ function SuppliersList() {
       if (filters.min_rating) params.append('min_rating', filters.min_rating)
       if (filters.ordering) params.append('ordering', filters.ordering)
       
-      const response = await axios.get(`http://localhost:8000/api/suppliers/?${params.toString()}`, { headers })
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/suppliers/?${params.toString()}`, { headers })
       setSuppliers(response.data)
       setHasMore(response.data.length === 10)
     } catch (error) {
