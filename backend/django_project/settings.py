@@ -10,7 +10,7 @@ PROJECT_ROOT = os.path.dirname(__file__)
 sys.path.insert(0, os.path.join(PROJECT_ROOT, 'apps'))
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-t^hz7xfq^fl!cgyiy$ij*&^z13@of!o08^(z09qqy(kyx2)dwc'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -70,6 +70,20 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'django_project.wsgi.application'
 
+
+# Database
+# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('DB_NAME', 'portfolio_db'),
+        'USER': os.environ.get('DB_USER', 'portfolio_user'),
+        'PASSWORD': os.environ.get('DB_PASSWORD', 'portfolio_pass'),
+        'HOST': os.environ.get('DB_HOST', 'localhost'),
+        'PORT': '5432',
+    }
+}
 
 CORS_ALLOW_ALL_ORIGINS = True
 
