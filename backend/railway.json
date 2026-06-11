@@ -5,6 +5,6 @@
     "rootDir": "backend"
   },
   "deploy": {
-    "startCommand": "gunicorn django_project.wsgi:application"
+    "startCommand": "cd backend && gunicorn django_project.wsgi:application --log-level debug --bind 0.0.0.0:8080"
   }
 }
