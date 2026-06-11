@@ -5,6 +5,9 @@ import dj_database_url
 # Базовая директория
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+PROJECT_ROOT = os.path.dirname(__file__)
+sys.path.insert(0, os.path.join(PROJECT_ROOT, 'apps'))
+
 # Секретный ключ
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
@@ -16,20 +19,22 @@ ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '.railway.app,.vercel.app,localh
 
 # Приложения (те же, что и в settings.py)
 INSTALLED_APPS = [
+    # Мои приложения
+    'chat.apps.ChatConfig',
+    'demo_data.apps.DemoDataConfig',
+    'users.apps.UsersConfig',
+    'suppliers.apps.SuppliersConfig',
+    # Django стандартные
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Сторонние приложения
     'rest_framework',
     'corsheaders',
     'django_celery_beat',
-    'whitenoise.runserver_nostatic',
-    'chat.apps.ChatConfig',
-    'demo_data.apps.DemoDataConfig',
-    'users.apps.UsersConfig',
-    'suppliers.apps.SuppliersConfig',
 ]
 
 # Middleware
