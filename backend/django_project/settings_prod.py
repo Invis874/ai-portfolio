@@ -16,7 +16,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = False
 
 # Разрешённые хосты
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '.railway.app,.vercel.app,localhost').split(',')
+ALLOWED_HOSTS = ['*']
 
 # Приложения (те же, что и в settings.py)
 INSTALLED_APPS = [
