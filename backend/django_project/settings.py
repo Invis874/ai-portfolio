@@ -97,7 +97,7 @@ CORS_ALLOW_HEADERS = [
     'user-agent',
     'x-csrftoken',
     'x-requested-with',
-    'x-session-key',  # Добавьте эту строку!
+    'x-session-key',
 ]
 
 REST_FRAMEWORK = {
