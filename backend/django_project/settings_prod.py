@@ -92,7 +92,7 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 # CORS
-CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOWED_ORIGINS = [
     "https://ai-portfolio-git-prod-akulenkomakar-1999s-projects.vercel.app",
     "https://ai-portfolio-omega-ten.vercel.app",
