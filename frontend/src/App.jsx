@@ -5,6 +5,7 @@ import { ThemeProvider, useTheme } from './context/ThemeContext'
 import ThemeToggle from './components/ThemeToggle'
 
 // Компоненты
+import StoryBook from './components/storybook/StoryBook';
 import PublicChat from './components/PublicChat'
 import OperatorChat from './components/OperatorChat'
 import DataTable from './components/DataTable'
@@ -103,7 +104,7 @@ function AppContent() {
         {/* Контент */}
         <main className="container mx-auto">
           <Routes>
-            <Route path="/" element={<Home role={role} darkMode={darkMode} />} />
+            <Route path="/" element={<StoryBook />} />
             <Route path="/chat" element={<PublicChat user={user} />} />
             <Route path="/table" element={<DataTable userRole={role} token={token} />} />
             <Route path="/dashboard" element={<Dashboard token={token} />} />
