@@ -29,8 +29,8 @@ const StoryBook = () => {
 
         <HTMLFlipBook
           ref={flipBookRef}
-          width={500}
-          height={600}
+          width={600}
+          height={750}
           size="fixed"
           minWidth={320}
           maxWidth={600}
@@ -45,10 +45,6 @@ const StoryBook = () => {
           showCover={true}
           mobileScrollSupport={true}
           className="custom-html-book"
-          style={{
-            backgroundColor: 'transparent',
-            borderRadius: '4px',
-          }}
         >
           {/* ===== ПЕРЕДНЯЯ ОБЛОЖКА ===== */}
           <div className="page book-cover-front" data-density="hard">

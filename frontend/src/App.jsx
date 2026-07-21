@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { BrowserRouter, Routes, Route, Link, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Link, Navigate, useLocation } from 'react-router-dom'
 import axios from 'axios'
 import { ThemeProvider, useTheme } from './context/ThemeContext'
 import ThemeToggle from './components/ThemeToggle'
 
 // Компоненты
-import StoryBook from './components/storybook/StoryBook';
+import StoryBook from './components/storybook/StoryBook'
+import FloatingMenu from './components/storybook/FloatingMenu'
 import PublicChat from './components/PublicChat'
 import OperatorChat from './components/OperatorChat'
 import DataTable from './components/DataTable'
@@ -21,6 +22,8 @@ function AppContent() {
   const [user, setUser] = useState(null)
   const [role, setRole] = useState('guest')
   const { darkMode } = useTheme()
+  const location = useLocation()
+  const isHome = location.pathname === '/'
 
   useEffect(() => {
     if (token) {
@@ -54,11 +57,12 @@ function AppContent() {
   }
 
   return (
-    <BrowserRouter>
-      <div className={`min-h-screen theme-transition ${
-        darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-900'
-      }`}>
-        {/* Навигация */}
+    <div className={`min-h-screen theme-transition ${isHome ? 'table-bg' : ''} ${
+      darkMode ? 'text-white' : 'text-gray-900'
+    }`}>
+
+      {/* Шапка только НЕ на главной */}
+      {!isHome && (
         <nav className={`shadow-md p-4 theme-transition ${
           darkMode ? 'bg-gray-800 border-b border-gray-700' : 'bg-white'
         }`}>
@@ -100,75 +104,33 @@ function AppContent() {
             </div>
           </div>
         </nav>
+      )}
 
-        {/* Контент */}
-        <main className="container mx-auto">
-          <Routes>
-            <Route path="/" element={<StoryBook />} />
-            <Route path="/chat" element={<PublicChat user={user} />} />
-            <Route path="/table" element={<DataTable userRole={role} token={token} />} />
-            <Route path="/dashboard" element={<Dashboard token={token} />} />
-            <Route path="/suppliers" element={<SuppliersList />} />
-            <Route path="/suppliers/:id" element={<SupplierDetail />} />
-            <Route path="/suppliers/add" element={
-              role === 'operator' ? <SupplierForm /> : <Navigate to="/suppliers" />
-            } />
-            <Route path="/suppliers/edit/:id" element={
-              role === 'operator' ? <SupplierForm /> : <Navigate to="/suppliers" />
-            } />
-            <Route path="/operator-chat" element={
-              role === 'operator' ? <OperatorChat token={token} user={user} /> : <Navigate to="/" />
-            } />
-            <Route path="/login" element={<Login setToken={setToken} />} />
-            <Route path="/register" element={<Register setToken={setToken} />} />
-          </Routes>
-        </main>
-      </div>
-    </BrowserRouter>
-  )
-}
+      {/* Руна только на главной */}
+      {isHome && <FloatingMenu user={user} role={role} onLogout={logout} />}
 
-// Главная страница
-function Home({ role, darkMode }) {
-  return (
-    <div className="text-center py-12">
-      <h1 className={`text-4xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-        🤖 AI Automation Engineer
-      </h1>
-      <p className={`text-xl mb-8 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-        Автоматизация бизнес-процессов с помощью ИИ
-      </p>
-      
-      <div className="grid md:grid-cols-3 gap-6 mt-8 px-4">
-        <div className={`p-6 rounded-lg shadow transition-colors ${
-          darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'
-        }`}>
-          <h3 className="text-2xl mb-3">💬 Умный чат-бот</h3>
-          <p className={darkMode ? 'text-gray-300' : 'text-gray-600'}>AI бот с распознаванием намерений</p>
-        </div>
-        <div className={`p-6 rounded-lg shadow transition-colors ${
-          darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'
-        }`}>
-          <h3 className="text-2xl mb-3">📊 Управление данными</h3>
-          <p className={darkMode ? 'text-gray-300' : 'text-gray-600'}>CRUD таблица с ролевой модельей</p>
-        </div>
-        <div className={`p-6 rounded-lg shadow transition-colors ${
-          darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'
-        }`}>
-          <h3 className="text-2xl mb-3">📈 Дашборд аналитики</h3>
-          <p className={darkMode ? 'text-gray-300' : 'text-gray-600'}>Графики и статистика</p>
-        </div>
-      </div>
-
-      <div className={`mt-8 p-4 rounded-lg mx-4 ${
-        darkMode ? 'bg-yellow-900 text-yellow-200' : 'bg-yellow-100 text-yellow-800'
-      }`}>
-        <p className="font-semibold">
-          {role === 'operator' 
-            ? '✅ Вы вошли как ОПЕРАТОР — доступно редактирование таблицы, ответы в чате и управление поставщиками'
-            : '👋 Вы в режиме ГОСТЯ — только просмотр. Войдите как оператор для полного доступа'}
-        </p>
-      </div>
+      {/* Контент */}
+      <main className={isHome ? '' : 'container mx-auto'}>
+        <Routes>
+          <Route path="/" element={<StoryBook />} />
+          <Route path="/chat" element={<PublicChat user={user} />} />
+          <Route path="/table" element={<DataTable userRole={role} token={token} />} />
+          <Route path="/dashboard" element={<Dashboard token={token} />} />
+          <Route path="/suppliers" element={<SuppliersList />} />
+          <Route path="/suppliers/:id" element={<SupplierDetail />} />
+          <Route path="/suppliers/add" element={
+            role === 'operator' ? <SupplierForm /> : <Navigate to="/suppliers" />
+          } />
+          <Route path="/suppliers/edit/:id" element={
+            role === 'operator' ? <SupplierForm /> : <Navigate to="/suppliers" />
+          } />
+          <Route path="/operator-chat" element={
+            role === 'operator' ? <OperatorChat token={token} user={user} /> : <Navigate to="/" />
+          } />
+          <Route path="/login" element={<Login setToken={setToken} />} />
+          <Route path="/register" element={<Register setToken={setToken} />} />
+        </Routes>
+      </main>
     </div>
   )
 }
@@ -176,7 +138,9 @@ function Home({ role, darkMode }) {
 function App() {
   return (
     <ThemeProvider>
-      <AppContent />
+      <BrowserRouter>
+        <AppContent />
+      </BrowserRouter>
     </ThemeProvider>
   )
 }

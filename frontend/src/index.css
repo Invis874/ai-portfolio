@@ -13,22 +13,36 @@
   will-change: background-color, border-color;
 }
 
-/* Форсируем аппаратное ускорение для проблемных элементов */
-.chat-messages-area {
-  transform: translateZ(0);
-  backface-visibility: hidden;
-  perspective: 1000px;
+/* ===== ФОН СТОЛА ДЛЯ ГЛАВНОЙ ===== */
+.table-bg {
+  background: 
+    repeating-linear-gradient(
+      90deg,
+      rgba(60, 40, 25, 0.3) 0px,
+      rgba(60, 40, 25, 0.3) 1px,
+      transparent 1px,
+      transparent 3px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(40, 25, 15, 0.2) 0px,
+      rgba(40, 25, 15, 0.2) 2px,
+      transparent 2px,
+      transparent 8px
+    ),
+    repeating-linear-gradient(
+      45deg,
+      rgba(30, 20, 10, 0.1) 0px,
+      rgba(30, 20, 10, 0.1) 1px,
+      transparent 1px,
+      transparent 20px
+    ),
+    radial-gradient(ellipse at center, #5a3d2a, #2a1a0e);
+  background-attachment: fixed;
+  min-height: 100vh;
 }
 
-/* Предотвращаем моргание при переключении темы */
-.dark .chat-messages-area,
-.light .chat-messages-area {
-  transition: background-color 0.3s ease;
-  will-change: background-color;
-}
-
-/* ========== СТИЛИ ДЛЯ ТАБЛИЦЫ ========== */
-/* Ховер для строк таблицы */
+/* ===== СТИЛИ ДЛЯ ТАБЛИЦЫ ===== */
 tr:hover td {
   background-color: rgba(59, 130, 246, 0.1) !important;
 }
@@ -37,7 +51,6 @@ tr:hover td {
   background-color: rgba(59, 130, 246, 0.2) !important;
 }
 
-/* Кнопки действий в таблице */
 button.text-blue-600:hover {
   color: #2563eb !important;
 }
@@ -58,8 +71,7 @@ button.text-blue-600:hover {
   color: #fca5a5 !important;
 }
 
-/* ========== СТИЛИ ДЛЯ КАЛЕНДАРЯ REACT-DATE-RANGE ========== */
-/* Основной контейнер календаря */
+/* ===== СТИЛИ ДЛЯ КАЛЕНДАРЯ ===== */
 .rdrCalendarWrapper {
   background-color: var(--bg-card, #ffffff) !important;
   color: var(--text-primary, #111827) !important;
@@ -74,7 +86,6 @@ button.text-blue-600:hover {
   border: 1px solid #374151 !important;
 }
 
-/* Поле ввода даты */
 .rdrDateDisplay {
   background-color: #f3f4f6 !important;
 }
@@ -93,7 +104,6 @@ button.text-blue-600:hover {
   color: #f9fafb !important;
 }
 
-/* Шапка с выбором месяца/года */
 .rdrMonthAndYearWrapper {
   background-color: #f9fafb !important;
 }
@@ -102,7 +112,6 @@ button.text-blue-600:hover {
   background-color: #1f2937 !important;
 }
 
-/* Выпадающие списки месяца и года */
 .rdrMonthPicker select,
 .rdrYearPicker select {
   background-color: #ffffff !important;
@@ -119,7 +128,6 @@ button.text-blue-600:hover {
   border-color: #6b7280 !important;
 }
 
-/* Навигационные кнопки */
 .rdrPprevButton i,
 .rdrNextButton i {
   border-color: #6b7280 !important;
@@ -130,17 +138,14 @@ button.text-blue-600:hover {
   border-color: #9ca3af !important;
 }
 
-/* Дни в календаре - надо убрать */
 .dark .rdrDayNumber span {
   color: #f9fafb !important;
 }
 
-/* Сегодняшний день */
 .rdrDayToday .rdrDayNumber span:after {
   background-color: #3b82f6 !important;
 }
 
-/* Выбранный диапазон */
 .rdrStartEdge,
 .rdrEndEdge,
 .rdrInRange {
@@ -154,14 +159,12 @@ button.text-blue-600:hover {
   background-color: #2563eb !important;
 }
 
-/* Текст внутри выделенного диапазона - БЕЛЫЙ */
 .rdrStartEdge .rdrDayNumber span,
 .rdrEndEdge .rdrDayNumber span,
 .rdrInRange .rdrDayNumber span {
   color: #ffffff !important;
 }
 
-/* Дополнительно для наведения */
 .rdrDayInPreview span {
   color: #ffffff !important;
 }
@@ -170,7 +173,6 @@ button.text-blue-600:hover {
   color: #ffffff !important;
 }
 
-/* Неактивные дни (другого месяца) */
 .rdrDayPassive .rdrDayNumber span {
   color: #9ca3af !important;
 }
@@ -179,7 +181,6 @@ button.text-blue-600:hover {
   color: #6b7280 !important;
 }
 
-/* Боковая панель с предустановленными диапазонами */
 .rdrDefinedRangesWrapper {
   background-color: #f9fafb !important;
   border-right: 1px solid #e5e7eb !important;
@@ -220,7 +221,7 @@ button.text-blue-600:hover {
   color: #f9fafb !important;
 }
 
-/* Стили для скроллбара */
+/* ===== СКРОЛЛБАР ===== */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -252,7 +253,7 @@ button.text-blue-600:hover {
   background: #6b7280;
 }
 
-/* Дополнительные стили для тёмной темы */
+/* ===== СТИЛИ ДЛЯ ТЁМНОЙ ТЕМЫ ===== */
 .dark body {
   background-color: #111827;
   color: #f3f4f6;

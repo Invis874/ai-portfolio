@@ -1,13 +1,12 @@
-/* frontend/src/components/storybook/Book.css */
-
 .book-container {
+  overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: radial-gradient(ellipse at center, #2a1a0e, #0a0603);
   padding: 2rem;
   position: relative;
+  background: radial-gradient(ellipse at center, #2a1a0e, #0a0603);
 }
 
 /* ===== ТЕКСТУРА СТОЛА ===== */
@@ -18,7 +17,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: 
+  background:
     repeating-linear-gradient(
       90deg,
       rgba(40, 30, 20, 0.3) 0px,
@@ -39,18 +38,13 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  position: relative;
 }
 
 /* ===== КНИГА ===== */
 .custom-html-book {
   background-color: transparent !important;
-  box-shadow: none !important;
 }
 
-.custom-html-book .shadow {
-  display: none !important;
-}
 
 /* ===== ОБЛОЖКА ===== */
 .custom-html-book .book-cover-front {
@@ -67,8 +61,7 @@
   text-align: center;
   box-shadow: 
     inset 0 0 60px rgba(0,0,0,0.6),
-    inset 0 0 20px rgba(180,140,100,0.2),
-    0 20px 60px rgba(0,0,0,0.7) !important;
+    inset 0 0 20px rgba(180,140,100,0.2);
 }
 
 .custom-html-book .book-cover-front::before {
@@ -153,19 +146,7 @@
   border: 3px solid #b8946a !important;
   box-shadow: 
     inset 0 0 60px rgba(0,0,0,0.8),
-    inset 0 0 20px rgba(180,140,100,0.1),
-    0 20px 60px rgba(0,0,0,0.7) !important;
-}
-
-.custom-html-book .book-cover-inner::before {
-  content: '';
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  right: 10px;
-  bottom: 10px;
-  border: 1px solid rgba(180,140,100,0.15);
-  pointer-events: none;
+    inset 0 0 20px rgba(180,140,100,0.1);
 }
 
 .cover-inner-content {
@@ -203,7 +184,8 @@
   background: #f5ede4 !important;
   padding: 2rem !important;
   border: 1px solid #d4b58c !important;
-  box-shadow: inset 0 0 40px rgba(180,140,100,0.1) !important;
+  box-shadow: 
+    inset 0 0 40px rgba(180,140,100,0.1);
 }
 
 .title-page-content {
@@ -255,7 +237,6 @@
   padding: 1.5rem;
   color: #3a2a1a;
   border: 1px solid #d4b58c;
-  box-shadow: inset 0 0 40px rgba(180,140,100,0.1);
   font-family: 'Georgia', 'Times New Roman', serif;
   overflow-y: auto;
   box-sizing: border-box;
@@ -264,10 +245,15 @@
 .custom-html-book .page-text-content {
   padding-right: 1.5rem;
   border-right: 1px solid #d4b58c;
+  box-shadow: 
+    inset 0 0 20px rgba(180,140,100,0.1);
 }
 
 .custom-html-book .page-gif-content {
   padding-left: 1.5rem;
+  box-shadow: 
+    /* Внутренняя тень (оставляем) */
+    inset 0 0 40px rgba(180,140,100,0.1);
 }
 
 .page-content {
@@ -392,13 +378,6 @@
 
 .nav-arrow-right {
   margin-left: 0.5rem;
-}
-
-/* ===== ТЕНЬ НА СТРАНИЦАХ ===== */
-.custom-html-book .page-wrapper.active .page {
-  box-shadow: 
-    inset 0 0 40px rgba(180,140,100,0.1),
-    0 10px 40px rgba(0,0,0,0.3) !important;
 }
 
 /* ===== АДАПТАЦИЯ ===== */
