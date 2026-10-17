@@ -9,11 +9,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^7.3.1",
+    "@fortawesome/free-solid-svg-icons": "^7.3.1",
+    "@fortawesome/react-fontawesome": "^3.4.0",
     "axios": "^1.6.0",
     "date-fns": "^4.4.0",
     "react": "^18.2.0",
     "react-date-range": "^2.0.1",
     "react-dom": "^18.2.0",
+    "react-pageflip": "^2.0.3",
     "react-query": "^3.39.3",
     "react-router-dom": "^6.20.0",
     "recharts": "^2.10.0"

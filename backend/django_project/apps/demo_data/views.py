@@ -30,22 +30,17 @@ class SalesDataViewSet(viewsets.ModelViewSet):
     def stats(self, request):
         """Статистика для дашборда"""
         # Параметры фильтрации
-        period = request.query_params.get('period', 'week')  # day, week, month
+        start_date = request.query_params.get('start_date')
+        end_date = request.query_params.get('end_date')
         category = request.query_params.get('category')
         
-        # Определяем дату начала
-        today = datetime.now().date()
-        if period == 'day':
-            start_date = today
-        elif period == 'week':
-            start_date = today - timedelta(days=7)
-        elif period == 'month':
-            start_date = today - timedelta(days=30)
-        else:
-            start_date = today - timedelta(days=7)
-        
-        # Фильтруем данные
-        queryset = self.queryset.filter(date__gte=start_date)
+       
+        queryset = self.queryset
+        # Фильтр по датам
+        if start_date:
+            queryset = queryset.filter(date__gte=start_date)
+        if end_date:
+            queryset = queryset.filter(date__lte=end_date)
         if category:
             queryset = queryset.filter(category=category)
         
@@ -63,9 +58,8 @@ class SalesDataViewSet(viewsets.ModelViewSet):
                 revenue=Sum('revenue'),
                 quantity=Sum('quantity')
             ).order_by('date')),
-            'period': period,
             'start_date': start_date,
-            'end_date': today
+            'end_date': end_date
         }
         
         return Response(stats_data)

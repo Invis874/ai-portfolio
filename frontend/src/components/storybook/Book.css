@@ -1,0 +1,405 @@
+.book-container {
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem;
+  position: relative;
+  background: radial-gradient(ellipse at center, #2a1a0e, #0a0603);
+}
+
+/* ===== ТЕКСТУРА СТОЛА ===== */
+.book-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(40, 30, 20, 0.3) 0px,
+      rgba(40, 30, 20, 0.3) 2px,
+      transparent 2px,
+      transparent 4px
+    ),
+    radial-gradient(ellipse at center, #3d2b1a, #1a0e08);
+  z-index: 0;
+}
+
+.book-container > * {
+  position: relative;
+  z-index: 1;
+}
+
+.book-shadow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* ===== КНИГА ===== */
+.custom-html-book {
+  background-color: transparent !important;
+}
+
+
+/* ===== ОБЛОЖКА ===== */
+.custom-html-book .book-cover-front {
+  background: linear-gradient(145deg, #2a1608, #1a0a04) !important;
+  color: #e8d5b0;
+  padding: 2rem;
+  border: 3px solid #b8946a !important;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  box-shadow: 
+    inset 0 0 60px rgba(0,0,0,0.6),
+    inset 0 0 20px rgba(180,140,100,0.2);
+}
+
+.custom-html-book .book-cover-front::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  border: 1px solid rgba(180,140,100,0.2);
+  pointer-events: none;
+}
+
+.custom-html-book .book-cover-front::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(ellipse at 30% 40%, rgba(180,140,100,0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.cover-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  z-index: 1;
+}
+
+.cover-ornament {
+  font-size: 1.2rem;
+  color: #b8946a;
+  letter-spacing: 8px;
+  margin-bottom: 0.5rem;
+}
+
+.cover-content h1 {
+  font-size: 2.5rem;
+  font-family: 'Times New Roman', serif;
+  color: #f0e0c0;
+  text-shadow: 0 0 30px rgba(180,140,100,0.2);
+  margin-bottom: 0.5rem;
+} 
+
+.cover-subtitle {
+  font-size: 1rem;
+  color: #b8946a;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+
+.cover-divider {
+  color: #b8946a;
+  margin: 0.8rem 0;
+  opacity: 0.5;
+}
+
+.cover-author {
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+  color: #8a7a6a;
+  font-style: italic;
+}
+
+.cover-hint {
+  margin-top: 1.5rem;
+  font-size: 0.7rem;
+  color: #5a4a3a;
+  letter-spacing: 2px;
+  opacity: 0.5;
+}
+
+/* ===== ВНУТРЕННЯЯ СТОРОНА ОБЛОЖКИ ===== */
+.custom-html-book .book-cover-inner {
+  background: linear-gradient(145deg, #1a0a04, #2a1608) !important;
+  color: #b8946a;
+  padding: 2rem !important;
+  border: 3px solid #b8946a !important;
+  box-shadow: 
+    inset 0 0 60px rgba(0,0,0,0.8),
+    inset 0 0 20px rgba(180,140,100,0.1);
+}
+
+.cover-inner-content {
+  text-align: center;
+  padding: 1rem;
+  max-width: 80%;
+  margin: 0 auto;
+}
+
+.cover-inner-ornament {
+  font-size: 2rem;
+  color: #8a7a6a;
+  letter-spacing: 8px;
+  margin-bottom: 1.5rem;
+  opacity: 0.6;
+}
+
+.cover-inner-text {
+  font-size: 1.1rem;
+  font-style: italic;
+  color: #c4a070;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  font-family: 'Georgia', serif;
+}
+
+.cover-inner-author {
+  font-size: 0.8rem;
+  color: #8a7a6a;
+  letter-spacing: 2px;
+}
+
+/* ===== ТИТУЛЬНЫЙ ЛИСТ ===== */
+.custom-html-book .page-title-page {
+  background: #f5ede4 !important;
+  padding: 2rem !important;
+  border: 1px solid #d4b58c !important;
+  box-shadow: 
+    inset 0 0 40px rgba(180,140,100,0.1);
+}
+
+.title-page-content {
+  text-align: center;
+  padding: 1rem;
+}
+
+.title-page-ornament {
+  font-size: 1.5rem;
+  color: #b8946a;
+  letter-spacing: 8px;
+  margin-bottom: 1rem;
+}
+
+.title-page-main {
+  font-size: 3rem;
+  font-family: 'Times New Roman', serif;
+  color: #4a2a1a;
+  margin-bottom: 0.5rem;
+}
+
+.title-page-sub {
+  font-size: 1.2rem;
+  color: #8a7a6a;
+  font-style: italic;
+  margin-bottom: 1rem;
+}
+
+.title-page-divider {
+  color: #b8946a;
+  opacity: 0.5;
+  margin: 1rem 0;
+}
+
+.title-page-author {
+  font-size: 1rem;
+  color: #6a4a2a;
+  margin-bottom: 0.5rem;
+}
+
+.title-page-year {
+  font-size: 0.9rem;
+  color: #8a7a6a;
+}
+
+/* ===== СТРАНИЦЫ ===== */
+.custom-html-book .page {
+  background: #f5ede4;
+  padding: 1.5rem;
+  color: #3a2a1a;
+  border: 1px solid #d4b58c;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.custom-html-book .page-text-content {
+  padding-right: 1.5rem;
+  border-right: 1px solid #d4b58c;
+  box-shadow: 
+    inset 0 0 20px rgba(180,140,100,0.1);
+}
+
+.custom-html-book .page-gif-content {
+  padding-left: 1.5rem;
+  box-shadow: 
+    /* Внутренняя тень (оставляем) */
+    inset 0 0 40px rgba(180,140,100,0.1);
+}
+
+.page-content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  margin-bottom: 0.8rem;
+  color: #b8946a;
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+}
+
+.page-divider {
+  color: #b8946a;
+}
+
+.page-title {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #4a2a1a;
+  border-bottom: 2px solid #d4b58c;
+  padding-bottom: 0.4rem;
+  margin-bottom: 0.4rem;
+  font-family: 'Times New Roman', serif;
+  text-align: center;
+}
+
+.page-subtitle {
+  font-size: 0.9rem;
+  color: #8a7a6a;
+  margin-bottom: 1rem;
+  font-style: italic;
+  text-align: center;
+}
+
+.page-description {
+  flex: 1;
+  line-height: 1.7;
+  font-size: 0.9rem;
+  color: #3a2a1a;
+}
+
+.page-description p {
+  margin-bottom: 0.6rem;
+  text-indent: 2em;
+}
+
+.page-tech-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 1rem;
+  justify-content: center;
+}
+
+.page-tech-tag {
+  background: #d4b58c;
+  color: #3a2a1a;
+  padding: 0.15rem 0.7rem;
+  border-radius: 20px;
+  font-size: 0.6rem;
+  font-weight: bold;
+  border: 1px solid #b8946a;
+}
+
+.page-gif-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.page-gif {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 4px;
+  border: 1px solid #d4b58c;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  object-fit: contain;
+}
+
+/* ===== СТРЕЛКИ ===== */
+.nav-arrow {
+  background: rgba(0,0,0,0.4);
+  color: #fff;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  z-index: 10;
+  position: relative;
+}
+
+.nav-arrow:hover {
+  background: rgba(0,0,0,0.7);
+  transform: scale(1.05);
+}
+
+.nav-arrow:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.nav-arrow-left {
+  margin-right: 0.5rem;
+}
+
+.nav-arrow-right {
+  margin-left: 0.5rem;
+}
+
+/* ===== АДАПТАЦИЯ ===== */
+@media (max-width: 768px) {
+  .custom-html-book {
+    width: 350px !important;
+    height: 450px !important;
+  }
+  .custom-html-book .page {
+    padding: 1rem;
+  }
+  .cover-content h1 {
+    font-size: 1.8rem;
+  }
+  .page-title {
+    font-size: 1.1rem;
+  }
+  .page-description {
+    font-size: 0.8rem;
+  }
+  .nav-arrow {
+    width: 32px;
+    height: 32px;
+  }
+}
