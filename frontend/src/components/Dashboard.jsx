@@ -1,20 +1,39 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
+import { DateRangePicker } from 'react-date-range'
+import { format, subDays, startOfWeek, endOfWeek, startOfMonth } from 'date-fns'
+import { ru } from 'date-fns/locale'
+import 'react-date-range/dist/styles.css'
+import 'react-date-range/dist/theme/default.css'
 import { useTheme } from '../context/ThemeContext'
 
 function Dashboard({ token }) {
   const { darkMode } = useTheme()
   const [stats, setStats] = useState(null)
-  const [period, setPeriod] = useState('week')
+  const [showDatePicker, setShowDatePicker] = useState(false)
+  
+  // По умолчанию — текущая неделя
+  const [dateRange, setDateRange] = useState([
+    {
+      startDate: startOfWeek(new Date(), { weekStartsOn: 1 }),
+      endDate: new Date(),
+      key: 'selection'
+    }
+  ])
 
   useEffect(() => {
     fetchStats()
-  }, [period])
+  }, [dateRange])
 
   const fetchStats = async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/sales/stats/?period=${period}`)
+      const start = format(dateRange[0].startDate, 'yyyy-MM-dd')
+      const end = format(dateRange[0].endDate, 'yyyy-MM-dd')
+      
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/sales/stats/?start_date=${start}&end_date=${end}`
+      )
       setStats(response.data)
     } catch (error) {
       console.error('Error fetching stats:', error)
@@ -24,6 +43,43 @@ function Dashboard({ token }) {
   const formatDate = (dateString) => {
     const date = new Date(dateString)
     return `${date.getDate().toString().padStart(2, '0')}.${(date.getMonth() + 1).toString().padStart(2, '0')}`
+  }
+
+  // Быстрые пресеты
+  const setThisWeek = () => {
+    setDateRange([{
+      startDate: startOfWeek(new Date(), { weekStartsOn: 1 }),
+      endDate: new Date(),
+      key: 'selection'
+    }])
+    setShowDatePicker(false)
+  }
+
+  const setLast7Days = () => {
+    setDateRange([{
+      startDate: subDays(new Date(), 7),
+      endDate: new Date(),
+      key: 'selection'
+    }])
+    setShowDatePicker(false)
+  }
+
+  const setLast30Days = () => {
+    setDateRange([{
+      startDate: subDays(new Date(), 30),
+      endDate: new Date(),
+      key: 'selection'
+    }])
+    setShowDatePicker(false)
+  }
+
+  const setThisMonth = () => {
+    setDateRange([{
+      startDate: startOfMonth(new Date()),
+      endDate: new Date(),
+      key: 'selection'
+    }])
+    setShowDatePicker(false)
   }
 
   if (!stats) {
@@ -58,23 +114,88 @@ function Dashboard({ token }) {
   return (
     <div className="space-y-6">
       <div className={`rounded-lg shadow-md p-6 ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
-        <div className="flex justify-between items-center mb-6">
+        
+        {/* Заголовок + фильтр дат */}
+        <div className="flex justify-between items-start mb-6 flex-wrap gap-4">
           <h2 className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
             📈 Дашборд аналитики
           </h2>
-          <select
-            value={period}
-            onChange={(e) => setPeriod(e.target.value)}
-            className={`px-3 py-2 border rounded focus:outline-none focus:border-blue-500 transition-colors ${
-              darkMode 
-                ? 'bg-gray-700 border-gray-600 text-white' 
-                : 'bg-white border-gray-300 text-gray-900'
-            }`}
-          >
-            <option value="day">За день</option>
-            <option value="week">За неделю</option>
-            <option value="month">За месяц</option>
-          </select>
+          
+          <div className="relative">
+            <button
+              onClick={() => setShowDatePicker(!showDatePicker)}
+              className={`px-4 py-2 border rounded flex items-center gap-2 transition-colors ${
+                darkMode 
+                  ? 'bg-gray-700 border-gray-600 text-white hover:bg-gray-600' 
+                  : 'bg-white border-gray-300 text-gray-900 hover:bg-gray-50'
+              }`}
+            >
+              <span>📅</span>
+              <span>
+                {format(dateRange[0].startDate, 'dd.MM.yyyy')} — {format(dateRange[0].endDate, 'dd.MM.yyyy')}
+              </span>
+            </button>
+
+            {/* Быстрые пресеты */}
+            <div className="flex gap-2 mt-2">
+              <button
+                onClick={setThisWeek}
+                className={`text-xs px-2 py-1 rounded transition-colors ${
+                  darkMode 
+                    ? 'bg-gray-600 text-white hover:bg-gray-500' 
+                    : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
+                }`}
+              >
+                Текущая неделя
+              </button>
+              <button
+                onClick={setLast7Days}
+                className={`text-xs px-2 py-1 rounded transition-colors ${
+                  darkMode 
+                    ? 'bg-gray-600 text-white hover:bg-gray-500' 
+                    : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
+                }`}
+              >
+                7 дней
+              </button>
+              <button
+                onClick={setLast30Days}
+                className={`text-xs px-2 py-1 rounded transition-colors ${
+                  darkMode 
+                    ? 'bg-gray-600 text-white hover:bg-gray-500' 
+                    : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
+                }`}
+              >
+                30 дней
+              </button>
+              <button
+                onClick={setThisMonth}
+                className={`text-xs px-2 py-1 rounded transition-colors ${
+                  darkMode 
+                    ? 'bg-gray-600 text-white hover:bg-gray-500' 
+                    : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
+                }`}
+              >
+                Этот месяц
+              </button>
+            </div>
+
+            {showDatePicker && (
+              <div className="absolute right-0 z-10 mt-2 shadow-lg rounded-lg">
+                <DateRangePicker
+                  ranges={dateRange}
+                  onChange={(item) => {
+                    setDateRange([item.selection])
+                    setShowDatePicker(false)
+                  }}
+                  locale={ru}
+                  months={2}
+                  direction="horizontal"
+                  showDateDisplay={false}
+                />
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Карточки с метриками */}
