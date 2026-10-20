@@ -194,7 +194,7 @@ function DataTable({ userRole, token }) {
             </select>
           </div>
           
-          <div className="flex items-end justify-end">
+          <div className="flex items-center justify-end pt-6">
             <button
               onClick={clearFilters}
               className={`px-4 py-2 rounded transition-colors whitespace-nowrap ${
