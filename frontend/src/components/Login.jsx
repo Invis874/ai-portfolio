@@ -81,7 +81,7 @@ function Login({ setToken }) {
       </form>
       
       <div className="mt-4 text-center text-sm text-gray-600">
-        <p>Тестовый оператор: admin / admin123</p>
+        <p>Тестовый оператор: operator / operator</p>
         <p>Или <a href="/register" className="text-blue-600">зарегистрируйтесь</a></p>
       </div>
     </div>
