@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import { DateRangePicker } from 'react-date-range'
 import { format, subDays, startOfMonth } from 'date-fns'
-import { ru } from 'date-fns/locale'
-import 'react-date-range/dist/styles.css'
-import 'react-date-range/dist/theme/default.css'
 import { useTheme } from '../context/ThemeContext'
+import DateRangeFilter from './common/DateRangeFilter'
 
 function DataTable({ userRole, token }) {
   const { darkMode } = useTheme()
@@ -20,7 +17,6 @@ function DataTable({ userRole, token }) {
   })
   
   const [selectedCategory, setSelectedCategory] = useState('all')
-  const [showDatePicker, setShowDatePicker] = useState(false)
   const [dateRange, setDateRange] = useState([
     {
       startDate: subDays(new Date(), 30),
@@ -121,7 +117,6 @@ function DataTable({ userRole, token }) {
         key: 'selection'
       }
     ])
-    setShowDatePicker(false)
   }
 
   const setLast30Days = () => {
@@ -132,7 +127,6 @@ function DataTable({ userRole, token }) {
         key: 'selection'
       }
     ])
-    setShowDatePicker(false)
   }
 
   const setThisMonth = () => {
@@ -143,7 +137,6 @@ function DataTable({ userRole, token }) {
         key: 'selection'
       }
     ])
-    setShowDatePicker(false)
   }
 
   const categories = {
@@ -177,68 +170,10 @@ function DataTable({ userRole, token }) {
       {/* Панель фильтров */}
       <div className={`p-4 rounded-lg mb-6 ${darkMode ? 'bg-gray-700' : 'bg-gray-50'}`}>
         <h3 className={`font-bold mb-3 ${darkMode ? 'text-white' : 'text-gray-900'}`}>🔍 Фильтры</h3>
-        <div className="grid md:grid-cols-3 gap-4">
-          <div className="relative">
+        <div className="grid md:grid-cols-3 gap-4 items-start">
+          <div>
             <label className={`block text-sm mb-1 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>Период</label>
-            <button
-              onClick={() => setShowDatePicker(!showDatePicker)}
-              className={`w-full px-3 py-2 border rounded text-left flex justify-between items-center transition-colors ${
-                darkMode 
-                  ? 'bg-gray-600 border-gray-500 text-white hover:bg-gray-500' 
-                  : 'bg-white border-gray-300 text-gray-900 hover:bg-gray-50'
-              }`}
-            >
-              <span>
-                {format(dateRange[0].startDate, 'dd.MM.yyyy')} — {format(dateRange[0].endDate, 'dd.MM.yyyy')}
-              </span>
-              <span className="text-gray-400">📅</span>
-            </button>
-            
-            <div className="flex gap-2 mt-2">
-              <button
-                onClick={setLast7Days}
-                className={`text-xs px-2 py-1 rounded transition-colors ${
-                  darkMode 
-                    ? 'bg-gray-600 text-white hover:bg-gray-500' 
-                    : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
-                }`}
-              >
-                7 дней
-              </button>
-              <button
-                onClick={setLast30Days}
-                className={`text-xs px-2 py-1 rounded transition-colors ${
-                  darkMode 
-                    ? 'bg-gray-600 text-white hover:bg-gray-500' 
-                    : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
-                }`}
-              >
-                30 дней
-              </button>
-              <button
-                onClick={setThisMonth}
-                className={`text-xs px-2 py-1 rounded transition-colors ${
-                  darkMode 
-                    ? 'bg-gray-600 text-white hover:bg-gray-500' 
-                    : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
-                }`}
-              >
-                Этот месяц
-              </button>
-            </div>
-            
-            {showDatePicker && (
-              <div className="absolute z-10 mt-2 shadow-lg rounded-lg">
-                <DateRangePicker
-                  ranges={dateRange}
-                  onChange={(item) => setDateRange([item.selection])}
-                  locale={ru}
-                  months={2}
-                  direction="horizontal"
-                  showDateDisplay={false}
-                />
-              </div>
-            )}
+            <DateRangeFilter dateRange={dateRange} setDateRange={setDateRange} />
           </div>
           
           <div>
@@ -259,10 +194,10 @@ function DataTable({ userRole, token }) {
             </select>
           </div>
           
-          <div className="flex items-end">
+          <div className="flex items-center justify-end pt-6">
             <button
               onClick={clearFilters}
-              className={`px-4 py-2 rounded transition-colors ${
+              className={`px-4 py-2 rounded transition-colors whitespace-nowrap ${
                 darkMode 
                   ? 'bg-gray-600 text-white hover:bg-gray-500' 
                   : 'bg-gray-500 text-white hover:bg-gray-600'

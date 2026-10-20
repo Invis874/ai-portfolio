@@ -51,6 +51,7 @@ class SimpleRestaurantBot:
         try:
             self.giga = GigaChat(
                 credentials=api_key,
+                model="GigaChat-2",
                 verify_ssl_certs=False,
                 timeout=30
             )
