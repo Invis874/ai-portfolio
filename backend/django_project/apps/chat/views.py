@@ -45,13 +45,22 @@ class ChatViewSet(viewsets.ModelViewSet):
             
             user = request.user if request.user.is_authenticated else None
             
-            session_key = None
-            if not user:
-                session_key = request.headers.get('X-Session-Key')
-                if not session_key:
-                    session_key = str(uuid.uuid4())
+            session_key = request.headers.get('X-Session-Key')
+            if not session_key:
+                session_key = str(uuid.uuid4())
+
+            user_role = 'guest'
+            user_id = None
+            if user:
+                user_role = user.profile.role
+                user_id = user.id
             
-            bot_response = restaurant_bot.get_response(message)
+            bot_response = restaurant_bot.get_response(
+                message,
+                session_key=session_key,
+                user_role=user_role,
+                user_id=user_id
+            )
             
             chat_message = ChatMessage.objects.create(
                 user=user,
@@ -61,8 +70,7 @@ class ChatViewSet(viewsets.ModelViewSet):
             )
             
             response_data = ChatMessageSerializer(chat_message).data
-            if session_key:
-                response_data['session_key'] = session_key
+            response_data['session_key'] = session_key
             
             return Response(response_data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
