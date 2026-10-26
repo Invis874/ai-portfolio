@@ -4,17 +4,23 @@ import { format, subDays, startOfMonth } from 'date-fns'
 import { useTheme } from '../context/ThemeContext'
 import DateRangeFilter from './common/DateRangeFilter'
 
+const today = () => format(new Date(), 'yyyy-MM-dd')
+
+// Пустая форма (переиспользуется)
+const emptyForm = () => ({
+  product_name: '',
+  category: 'pizza',
+  quantity: 1,
+  revenue: 0,
+  date: today()
+})
+
 function DataTable({ userRole, token }) {
   const { darkMode } = useTheme()
   const [data, setData] = useState([])
   const [filteredData, setFilteredData] = useState([])
   const [editingItem, setEditingItem] = useState(null)
-  const [formData, setFormData] = useState({
-    product_name: '',
-    category: 'pizza',
-    quantity: 1,
-    revenue: 0
-  })
+  const [formData, setFormData] = useState(emptyForm())
   
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [dateRange, setDateRange] = useState([
@@ -60,7 +66,7 @@ function DataTable({ userRole, token }) {
     try {
       await axios.post(`${import.meta.env.VITE_API_URL}/sales/`, formData)
       fetchData()
-      setFormData({ product_name: '', category: 'pizza', quantity: 1, revenue: 0 })
+      setFormData(emptyForm())
     } catch (error) {
       console.error('Error creating:', error)
     }
@@ -71,7 +77,7 @@ function DataTable({ userRole, token }) {
       await axios.put(`${import.meta.env.VITE_API_URL}/sales/${editingItem.id}/`, formData)
       fetchData()
       setEditingItem(null)
-      setFormData({ product_name: '', category: 'pizza', quantity: 1, revenue: 0 })
+      setFormData(emptyForm())
     } catch (error) {
       console.error('Error updating:', error)
     }
@@ -94,7 +100,8 @@ function DataTable({ userRole, token }) {
       product_name: item.product_name,
       category: item.category,
       quantity: item.quantity,
-      revenue: item.revenue
+      revenue: Number(item.revenue),
+      date: item.date
     })
   }
 
@@ -271,6 +278,11 @@ function DataTable({ userRole, token }) {
                   : 'bg-white border-gray-300 text-gray-900'
               }`}
             />
+            <input type="date" value={formData.date}
+              max={today()}
+              onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+              className={`px-3 py-2 border rounded ${darkMode ? 'bg-gray-600 border-gray-500 text-white' : 'bg-white border-gray-300 text-gray-900'}`}
+            />
           </div>
           <div className="mt-3 flex gap-2">
             <button
@@ -283,7 +295,7 @@ function DataTable({ userRole, token }) {
               <button
                 onClick={() => {
                   setEditingItem(null)
-                  setFormData({ product_name: '', category: 'pizza', quantity: 1, revenue: 0 })
+                  setFormData(emptyForm())
                 }}
                 className="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500 transition-colors"
               >
